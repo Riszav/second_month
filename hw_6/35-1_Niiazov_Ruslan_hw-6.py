@@ -55,4 +55,4 @@ def binary_search(list, value):
 list_2=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,27,28,30]
 print(f'------------------Список для поиска:------------------\n{list_2}')
 value=int(input('Введите число для поиска: '))
-binary_search(list_1,value)
+binary_search(list_2,value)
