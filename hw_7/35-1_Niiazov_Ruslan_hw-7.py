@@ -32,44 +32,44 @@ def create_table(connection, sql):
     except sqlite3.Error as e:
         print(e)
 
-def create_employee(connection):
+def create_product(connection):
     values = [('Acer Nitro 5', 80000, 20), ('Lenovo Ideapad', 75000, 16), ('Lenovo Ideapad gaming', 79000, 21), ('TUF Gaming', 85000, 18),
               ('Lenovo LV-1233', 38000, 22), ('Acer Aspire 7', 70000, 15), ('DELL WW-124h', 30000, 18), ('ASUS Y1511CDA', 35000, 25),
               ('Maibenben M543', 38000, 12), ('ASUS ZenBook 14', 108000, 22), ('Acer Aspire 5', 60000, 13), ('Acer Aspire 3', 35000, 11),
               ('ASUS Vivobook Go 15', 40000, 11), ('Machenike Machcreator 15', 110000, 19), ('MSI Modern 14', 98000, 25), ]
-    for employees in values:
+    for product in values:
         sql = '''
-        INSERT INTO employees 
+        INSERT INTO products 
         (product_title, price, quantity) 
         VALUES (?, ?, ?)
         '''
         try:
             cursor = connection.cursor()
-            cursor.execute(sql, employees)
+            cursor.execute(sql, product)
             connection.commit()
         except sqlite3.Error as e:
             print(e)
 
-def update_employee_price(connection, employee_id, new_price):
-    sql = '''UPDATE employees SET price = ? WHERE id = ?'''
+def update_product_price(connection, product_id, new_price):
+    sql = '''UPDATE products SET price = ? WHERE id = ?'''
     cursor = connection.cursor()
-    cursor.execute(sql, (new_price, employee_id))
+    cursor.execute(sql, (new_price, product_id))
     connection.commit()
 
-def update_employee_quantity(connection, employee_id, new_quantity):
-    sql = '''UPDATE employees SET quantity = ? WHERE id = ?'''
+def update_product_quantity(connection, product_id, new_quantity):
+    sql = '''UPDATE products SET quantity = ? WHERE id = ?'''
     cursor = connection.cursor()
-    cursor.execute(sql, (new_quantity, employee_id))
+    cursor.execute(sql, (new_quantity, product_id))
     connection.commit()
 
-def delete_employee(connection, employee_id):
-    sql = '''DELETE FROM employees WHERE id = ?'''
+def delete_product(connection, product_id):
+    sql = '''DELETE FROM products WHERE id = ?'''
     cursor = connection.cursor()
-    cursor.execute(sql, (employee_id,))
+    cursor.execute(sql, (product_id,))
     connection.commit()
 
-def select_all_employees(connection):
-    sql = '''SELECT * FROM employees'''
+def select_all_products(connection):
+    sql = '''SELECT * FROM products'''
     cursor = connection.cursor()
     cursor.execute(sql)
     rows = cursor.fetchall()
@@ -77,8 +77,8 @@ def select_all_employees(connection):
     for row in rows:
         print(row)
 
-def select_employer_by_price_and_quntity(connection, price, quantity):
-    sql = '''SELECT * FROM employees WHERE price > ? AND  quantity > ?'''
+def select_product_by_price_and_quntity(connection, price, quantity):
+    sql = '''SELECT * FROM products WHERE price > ? AND  quantity > ?'''
     cursor = connection.cursor()
     cursor.execute(sql, (price, quantity))
     rows = cursor.fetchall()
@@ -86,9 +86,9 @@ def select_employer_by_price_and_quntity(connection, price, quantity):
     for row in rows:
         print(row)
 
-def select_employer_by_product_title(connection, name):
+def select_product_by_product_title(connection, name):
     # value = f'%{name}%'
-    sql = '''SELECT * FROM employees WHERE product_title LIKE ?'''
+    sql = '''SELECT * FROM products WHERE product_title LIKE ?'''
     cursor = connection.cursor()
     cursor.execute(sql, (name,))
     rows = cursor.fetchall()
@@ -99,7 +99,7 @@ def select_employer_by_product_title(connection, name):
 connection = create_connection("hw.db")
 
 sql_create_employees_table = '''
-CREATE TABLE IF NOT EXISTS employees (
+CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     product_title VARCHAR(200) NOT NULL,
     price DOUBLE(10, 2) NOT NULL DEFAULT 0.0,
@@ -110,11 +110,11 @@ CREATE TABLE IF NOT EXISTS employees (
 if connection:
     print("Соединение с БД установлено")
     create_table(connection, sql_create_employees_table)
-    # select_all_employees(connection)
-    # select_employer_by_price_and_quntity(connection, 50000, 16)
-    # select_employer_by_product_title(connection, '%Acer%')
-    # update_employee_price(connection,31,75000)
-    # update_employee_quantity(connection,31, 25)
-    # delete_employee(connection,32)
+    select_all_products(connection)
+    select_product_by_price_and_quntity(connection, 50000, 16)
+    select_product_by_product_title(connection, '%Acer%')
+    update_product_price(connection,1,75000)
+    update_product_quantity(connection,1, 25)
+    delete_product(connection,2)
 
-    # create_employee(connection)
+    # create_product(connection)
