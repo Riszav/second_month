@@ -98,7 +98,7 @@ def select_product_by_product_title(connection, name):
 
 connection = create_connection("hw.db")
 
-sql_create_employees_table = '''
+sql_create_products_table = '''
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     product_title VARCHAR(200) NOT NULL,
@@ -109,10 +109,10 @@ CREATE TABLE IF NOT EXISTS products (
 
 if connection:
     print("Соединение с БД установлено")
-    create_table(connection, sql_create_employees_table)
+    create_table(connection, sql_create_products_table)
     select_all_products(connection)
     select_product_by_price_and_quntity(connection, 50000, 16)
-    select_product_by_product_title(connection, '%Acer%')
+    select_product_by_product_title(connection, '%ASUS%')
     update_product_price(connection,1,75000)
     update_product_quantity(connection,1, 25)
     delete_product(connection,2)
